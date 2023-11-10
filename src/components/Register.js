@@ -15,18 +15,22 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  // const navigate = useNavigate()
 
   const auth = useSelector((state) => state.auth);
   const { isAuthenticated, error } = auth;
 
   useEffect(() => {
     let timeoutId;
-
+    console.log(auth, "auth")
+    
     if (isAuthenticated) {
       setSuccessMessage("Successfully Registered!");
       timeoutId = setTimeout(() => {
         setSuccessMessage('');
-        role === "customer" ? history.push('/login_customer') : history.push('/login_admin');
+        console.log(auth, "auth")
+        // history.push(auth.role === 'admin' ? '/admindashboard' : '/userdashboard');
+        role === "customer" ? history.push('/login_customer') : history.push('/login_admin') ;
       }, 2000);
     }
 
@@ -40,7 +44,7 @@ const Register = () => {
       clearTimeout(timeoutId);
     };
 
-  }, [isAuthenticated, error, role, history, errors]);
+  }, [isAuthenticated, error, role, history, errors, auth]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

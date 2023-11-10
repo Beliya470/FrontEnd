@@ -5,8 +5,9 @@ import { Row, Col } from "react-bootstrap";
 
 const AdminDashboard = () => {
   return (
-    <div style={{marginLeft:0}}>
-    <Row className="justify-content-center">
+    <div style={{marginLeft:40}} className="backgroundimage">
+
+    <Row className="justify-content-center ">
       <Col xs={4}>
         <div className="admin-dashboard-container">
           <h1 className="admin-dashboard-title">Admin Dashboard</h1>
@@ -34,9 +35,7 @@ const AdminDashboard = () => {
           </ul>
         </div>
       </Col>
-      <Col></Col>
-      <Col></Col>
-      <Col></Col>
+    
     </Row>
     </div>
   );

@@ -56,6 +56,7 @@ const AddEditMeal = () => {
 
   return (
     <div>
+      
       <h2>{isAddMode ? 'Add Meal' : 'Edit Meal'}</h2>
       <form onSubmit={handleSubmit}>
         <label>

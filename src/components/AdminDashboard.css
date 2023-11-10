@@ -1,15 +1,15 @@
-
 .admin-dashboard-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif
   }
   
   .admin-dashboard-title {
-    font-size: 24px;
+    font-size: 50px;
     margin-bottom: 20px;
+    color: #dd243d;
   }
   
   .admin-dashboard-menu {

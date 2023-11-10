@@ -1,50 +1,55 @@
-
 // import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { useParams } from 'react-router-dom';
+// import axios from 'axios';
+// import { useParams } from 'react-router-dom'; // Import useParams
 
-
-// const UserProfile = ({ users }) => {
-//     const { username } = useParams();
-//     const [user, setUser] = useState(null);
+// const UserProfile = () => {
+//     const [userData, setUserData] = useState(null);
+//     const { username } = useParams(); 
 
 //     useEffect(() => {
-//         fetch(`/profile?username=${username}`)
+//         const fetchUserData = async () => {
+//             try {
+//                 console.log('Fetching data for username:', username);
+//                 if (!username) {
+//                     console.error('No username provided to UserProfile component');
+//                     return;
+//                 }
 
-//         // fetch(`/profile/${username}`)
+//                 // Include the full URL of your backend server
+//                 // const response = await axios.get(`https://mealy-app-ffs5.onrender.com/profile/${username}`);
+//                 const response = await axios.get(`https://mealy-app-ffs5.onrender.com/profile/username=${username}`);
 
-//         // fetch(`/profile?username=${username}`)
-//             .then((response) => {
-//                 if (!response.ok) throw new Error('Network response was not ok');
-//                 return response.json();
-//             })
-//             .then((data) => {
-//                 console.log(data)
-//                 setUser(data);
-//             })
-//             .catch((error) => {
-//                 console.error('Error fetching user profile:', error);
-//             });
+//                 console.log('User data received:', response.data);
+//                 setUserData(response.data);
+//             } catch (error) {
+//                 console.error('Error fetching user data:', error);
+//             }
+//         };
+
+//         fetchUserData();
 //     }, [username]);
 
-//     if (!user) {
+//     if (!userData) {
+//         console.log('No user data, loading...');
+
 //         return <div>Loading...</div>;
 //     }
-//   return (
-//     <div className='p-4'>
-//         <h2 className="text-2xl font-semibold">{user.username}'s Profile</h2>
-//             <p>Email: {user.email}</p>
-//             <p>Role: {user.role}</p>
-//             <p>ID: {user.id}</p>
-        
-//     </div>
-//   )
-// }
 
-// export default UserProfile
+//     return (
+//         <div>
+//             <h1>User Profile</h1>
+//             <p>ID: {userData.id}</p>
+//             <p>Username: {userData.username}</p>
+//             <p>Email: {userData.email}</p>
+//             <p>Role: {userData.role}</p>
+//             <p>Created At: {userData.created_at}</p>
+//             <p>Updated At: {userData.updated_at}</p>
+//         </div>
+//     );
+// };
 
+// export default UserProfile;
 import React from 'react';
-
 
 const UserProfile = () => {
   return (
@@ -70,7 +75,7 @@ const UserProfile = () => {
             <div className="user-info">
               <h3>Gift Kimani</h3>
               <p>Email: gift.kimani@example.com</p>
-              <p>Phone: +1 123-456-7890</p>
+              <p>Phone: +254-756-7890</p>
             </div>
           </div>
         </section>
@@ -132,3 +137,4 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+

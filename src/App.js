@@ -17,7 +17,10 @@ import Orders from './components/Orders.js';
 import UserProfile from './components/UserProfile.js';
 import OrderItem from './components/OrderItem.js';
 import NotFound from './components/NotFound.js';
+import AdminEarnings from './components/AdminEarnings.js'
+import ViewMenu from './components/ViewMenu.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import { getUserDetails } from './redux/actions/authActions.js';
 
@@ -63,6 +66,8 @@ const App = () => {
           <Route path="/earnings" component={Earnings} />
           <Route path="/orders" component={Orders} />
           <Route path="/history" component={OrderItem} />
+          <Route path="/admin-earning" component={AdminEarnings} />
+          <Route path="/view-menu" component={ViewMenu} />
           <Route component={NotFound} />
         </Switch>
       </div>

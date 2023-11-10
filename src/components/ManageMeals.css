@@ -16,12 +16,7 @@
 }
 
 /* Error message style */
-.ManageMeals .error {
-  color: red;
-  font-weight: bold;
-}
 
-/* Meal input container */
 .ManageMeals .meal-inputs {
   display: flex;
   flex-wrap: wrap;
@@ -29,7 +24,7 @@
   margin-bottom: 20px;
 }
 
-/* Individual meal input field */
+
 .ManageMeals .meal-inputs input {
   width: 200px;
   padding: 10px;
@@ -38,7 +33,7 @@
   border-radius: 5px;
 }
 
-/* Button style for adding a meal */
+
 .ManageMeals .add-meal-button {
   background-color: #007bff;
   color: yellow;

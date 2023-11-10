@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
-// import ManageMeals from './ManageMeals';
-import {Containr,Row,Column } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, ButtonGroup } from "react-bootstrap";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://mealy-app-ffs5.onrender.com",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
   },
@@ -24,7 +21,6 @@ const ManageMeals = () => {
 
   const fetchMeals = async () => {
     const userId = localStorage.getItem("user_id");
-    console.log("Fetching meals for user:", userId);
 
     if (!userId) {
       setError("User ID missing");
@@ -32,7 +28,6 @@ const ManageMeals = () => {
     }
     try {
       const response = await api.get(`/meals?user_id=${userId}`);
-      console.log("Fetched meals:", response.data.meals);
       setMeals(response.data.meals);
       setError("");
     } catch (err) {
@@ -46,7 +41,6 @@ const ManageMeals = () => {
   };
 
   const handleAddMeal = async () => {
-    console.log("Attempting to add a new meal...");
     try {
       if (!newMealName || !newMealPrice) {
         setError("Name and Price are required");
@@ -60,10 +54,8 @@ const ManageMeals = () => {
         image_url: newMealImageUrl || "",
       };
 
-      console.log("Sending add meal request with data:", requestData);
       const response = await api.post("/meals", requestData);
 
-      console.log("Meal added successfully:", response.data);
       setMeals([...meals, response.data]);
       setNewMealName("");
       setNewMealDescription("");
@@ -123,100 +115,41 @@ const ManageMeals = () => {
   }, []);
 
   return (
-    //<Container>
+    <Container>
       <Row>
-        <Col></Col>
+        <Col>
+          <Button
+            onClick={() => {
+              // Handle the action to go back to the admin page
+              // For example, you can use react-router-dom or window.location
+            }}
+            className="back-to-admin-button"
+          >
+            Back to Admin
+          </Button>
+        </Col>
+        <Card style={{ width: '18rem', borderRadius: '20px', backgroundColor: 'red' }}></Card>
         <Col xs={8}>
           <div className="ManageMeals">
             <h1 className="heading">Manage Meals</h1>
             {error && <p className="error">{error}</p>}
             <div className="meal-inputs">
-              <input
-                type="text"
-                value={newMealName}
-                onChange={(e) => setNewMealName(e.target.value)}
-                placeholder="New Meal Name"
-              />
-              <input
-                type="text"
-                value={newMealDescription}
-                onChange={(e) => setNewMealDescription(e.target.value)}
-                placeholder="Meal Description"
-              />
-              <input
-                type="number"
-                value={newMealPrice}
-                onChange={(e) => setNewMealPrice(e.target.value)}
-                placeholder="Price"
-              />
-              <input
-                type="text"
-                value={newMealImageUrl}
-                onChange={(e) => setNewMealImageUrl(e.target.value)}
-                placeholder="Image URL"
-              />
-              <button onClick={handleAddMeal} className="add-meal-button">
-                Add Meal
-              </button>
+              {}
             </div>
             <ul className="meal-list">
-              {meals.map((meal) => (
-                <li key={meal.id} className="meal-item">
-                  {editingMeal && editingMeal.id === meal.id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={editingMeal.name}
-                        onChange={(e) =>
-                          setEditingMeal({
-                            ...editingMeal,
-                            name: e.target.value,
-                          })
-                        }
-                      />
-                      <button
-                        onClick={handleUpdateMeal}
-                        className="update-button"
-                      >
-                        Update
-                      </button>
-                      <button
-                        onClick={() => setEditingMeal(null)}
-                        className="update-button"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      {meal.name}
-                      <button
-                        onClick={() => handleEditMeal(meal.id)}
-                        className="edit-button"
-                      >
-                        Edit
-                      </button>
-                      <ButtonGroup vertical>Left
-                        onClick={() => handleDeleteMeal(meal.id)}
-                        className="delete-button"
-                        Delete
-                      </ButtonGroup>
-                      <button
-                        onClick={() => handleSelectMeal(meal.id)}
-                        className="select-button"
-                      >
-                        Select for Menu
-                      </button>
-                    </>
-                  )}
-                </li>
-              ))}
+              {}
             </ul>
           </div>
         </Col>
         <Col></Col>
       </Row>
+    </Container>
   );
 };
 
 export default ManageMeals;
+
+
+
+
+

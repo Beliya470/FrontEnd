@@ -3,9 +3,11 @@ import axios from 'axios';
 export const registerUser = (userData) => {
   return async (dispatch) => {
     try {
-      await axios.post('http://localhost:5000/register', userData);
+      await axios.post('https://mealy-app-ffs5.onrender.com/register', userData);
+     
       
       console.log("Registration successful, redirecting to login...");
+      {userData.role == "customer" ? history.push('/login_customer') : history.push('/login_admin')}
       // Redirecting to login is handled by the backend. No token at this step.
     } catch (error) {
       console.log("Registration error:", error.response?.data);
@@ -20,7 +22,7 @@ export const registerUser = (userData) => {
 export const loginUser = (loginData, role) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`http://localhost:5000/login_${role}`, loginData);
+      const response = await axios.post(`https://mealy-app-ffs5.onrender.com/login_${role}`, loginData);
       
       console.log("Login successful, received tokens:", response.data);
       localStorage.setItem('access_token', response.data.access_token);
@@ -42,7 +44,7 @@ export const loginUser = (loginData, role) => {
 export const getUserDetails = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/me', {
+      const response = await axios.get('https://mealy-app-ffs5.onrender.com/api/users/me', {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
@@ -65,7 +67,7 @@ export const getUserDetails = () => {
 export const refreshToken = () => {
   return async () => {  // Removed 'dispatch' as it's not used
     try {
-      const response = await axios.post('http://localhost:5000/token/refresh', {}, {
+      const response = await axios.post('https://mealy-app-ffs5.onrender.com/token/refresh', {}, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
         }

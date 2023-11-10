@@ -43,17 +43,17 @@ const Menu = () => {
 
     return (
         <div>
-            <h2>Menus</h2>
+            <h2>Menu</h2>
             {todayMenu ? (
                 <div>
                     <h3>Today's Menu ({today})</h3>
-                    <ul>
+                    
                         {todayMenu.menu_meals.map(menuMeal => (
                             <li key={menuMeal.meal.id}>
                                 {menuMeal.meal.name} - ${menuMeal.meal.price}
                             </li>
                         ))}
-                    </ul>
+                    
                 </div>
             ) : (
                 <p>No menu available for today.</p>

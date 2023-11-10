@@ -1,39 +1,41 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import {Row, Col,Card} from "react-bootstrap";
+import { useHistory } from 'react-router-dom'; 
+import { Row ,Col ,Card } from 'react-bootstrap';
 
 const MealList = () => {
-  const [editingMealId, setEditingMealId] = useState(null);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
   const [image_url, setImage_url] = useState('');
+
   const [meals, setMeals] = useState([]);
+  const [editingMealId, setEditingMealId] = useState(null);
   const [formData, setFormData] = useState({
+    // id: '',
     name: '',
     description: '',
     price: '',
-    caterer_id: '',
+    image_url: '',
+    caterer_id: ''
   });
-
   const history = useHistory();
   const [caterers, setCaterers] = useState([]);
   const [error, setError] = useState(null);
 
   const goBackToAdminDashboard = () => {
-    history.push('/admin-dashboard'); 
+    history.push('/admin-dashboard'); // Define the path you want to navigate to
   };
-
   const fetchMeals = async () => {
     try {
       const token = localStorage.getItem('access-token');
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.get('http://localhost:5000/meals', config);
+      const response = await axios.get('https://mealy-app-ffs5.onrender.com/meals', config);
       setMeals(response.data["meal options"]);
     } catch (error) {
       setError("Error fetching meals");
     }
   };
+
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
@@ -53,47 +55,40 @@ const MealList = () => {
   useEffect(() => {
     const fetchCaterers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/caterers');
+        const response = await axios.get('https://mealy-app-ffs5.onrender.com/caterers');
         setCaterers(response.data.caterers);
       } catch (error) {
-        setError('Error fetching caterers');
+        setError("Error fetching caterers");
       }
     };
     fetchCaterers();
     fetchMeals();
   }, []);
 
-
-
   const addMeal = async () => {
-    try {
-      const token = localStorage.getItem('access-token');
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-
-      const formDataWithImage = { ...formData, image_url: image_url };
-
-      const response = await axios.post(
-        'http://localhost:5000/meals',
-        formDataWithImage,
-        config
-      );
-      alert(response.data.message);
-      setMeals([...meals, formDataWithImage]);
-      setImage_url('');
-      setFormData({
-        name: '',
-        description: '',
-        price: '',
-        image_url: '',
-        caterer_id: ''
-      });
-    } catch (error) {
-      setError('Error adding meal');
+    if (editingMealId) {
+      await updateMeal();
+    } else {
+      try {
+        const token = localStorage.getItem('access-token');
+        
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const formDataWithIntegerPrice = { ...formData, price: parseInt(formData.price, 10), image_url: image_url };
+        const response = await axios.post('https://mealy-app-ffs5.onrender.com/meals', formDataWithIntegerPrice, config);
+        
+         
+        alert(response.data.message);
+        fetchMeals();
+      } catch (error) {
+        setError("Error adding meal");
+      }
     }
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name !== 'caterer_id') {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleCatererChange = (e) => {
@@ -101,37 +96,33 @@ const MealList = () => {
     setFormData({ ...formData, caterer_id: selectedCatererId });
   };
 
-  // This function edits the meal with the given ID
-  const editMeal = (mealId) => {
-    setEditingMealId(mealId);
-    const meal = meals.find((meal) => meal.id === mealId);
-    setFormData(meal);
-    updateMeal();
+  const editMeal = (meal) => {
+    setEditingMealId(meal.id);
+    setFormData({ ...meal });
   };
 
-  // This function deletes the meal with the given ID
   const deleteMeal = async (mealId) => {
     try {
       const token = localStorage.getItem('access-token');
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.delete('http://localhost:5000/meals', { data: { id: mealId }, ...config });
-      alert('Meal deleted successfully!');
+      const response = await axios.delete('https://mealy-app-ffs5.onrender.com/meals', { data: { id: mealId }, ...config });
+      alert(response.data.message);
       setMeals(meals.filter((meal) => meal.id !== mealId));
     } catch (error) {
-      setError('Error deleting meal');
+      setError("Error deleting meal");
     }
   };
-  
 
   const updateMeal = async () => {
     try {
       const token = localStorage.getItem('access-token');
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.put('http://localhost:5000/meals', formData, config);
+      const response = await axios.put('https://mealy-app-ffs5.onrender.com/meals', formData, config);
       alert(response.data.message);
       setMeals(meals.map((meal) => (meal.id === formData.id ? formData : meal)));
       setEditingMealId(null);
       setFormData({
+        id: '',
         name: '',
         description: '',
         price: '',
@@ -147,30 +138,34 @@ const MealList = () => {
     e.preventDefault();
     addMeal();
   };
-
-  useEffect(() => {
-    fetchMeals();
-  }, []);
   return (
     <Row>
-      <Col  md={12}>
       <h1>Manage Meals</h1>
+      <Col  md={7}>
+      
       <Row>
-      <h2>Meals</h2>
                 
         {meals && meals.map(meal => (
           <Col md={5}> 
           <Card 
-          style={{ width: '25rem'}}>
-          <li key={meal.id}>
-            <p>Name: {meal.name}</p>
+          style={{ width: '30rem'}}>
+          <div key={meal.id}>
+          <Card.Header>Name: {meal.name}</Card.Header>
+            {/* <p>Name: {meal.name}</p> */}
             <p>Description: {meal.description}</p>
             <p>Price: ${meal.price}</p>
             <p>Caterer ID: {meal.caterer_id}</p>
             <img src={meal.image_url} alt={meal.name} />
-            <button onClick={() => editMeal(meal)}>Edit</button>
-            <button onClick={() => deleteMeal(meal.id)}>Delete</button>
-          </li>
+            <Card.Footer className="text-muted">
+              <Row>
+                <Col><button onClick={() => editMeal(meal)}>Edit</button></Col>
+                <Col><button onClick={() => deleteMeal(meal.id)}>Delete</button></Col>
+              </Row>
+              
+            
+            </Card.Footer>
+            
+          </div>
           </Card>
           </Col>
         ))}
@@ -178,7 +173,7 @@ const MealList = () => {
       {/* </ul> */}
       </Row>
       </Col>
-      <Col md={20}>
+      <Col md={4}>
         <Card>
       <button className='backtoadmin' onClick={goBackToAdminDashboard}>Back to Admin Dashboard</button> {/* Back button */}
       <form onSubmit={handleSubmit}>   
@@ -196,7 +191,7 @@ const MealList = () => {
         </div>
         <div>
           <label>Image URL: </label>
-          <input type="text" name="image_url" value={formData.image_url} onChange={handleChange} className='block w-full px-4 py-2 mt-2 text-black bg-white border border-blue-400 rounded-md focus:ring-gray-700 focus:outline-none focus:ring focus:ring-opacity-40'/>
+          <input type="text" name="image_url" value={image_url} onChange={handleChange} className='block w-full px-4 py-2 mt-2 text-black bg-white border border-blue-400 rounded-md focus:ring-gray-700 focus:outline-none focus:ring focus:ring-opacity-40'/>
           <button type="button" onClick={() => widgetRef.current.open()}>
             Upload Image
           </button>

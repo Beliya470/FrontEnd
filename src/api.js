@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const API = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://mealy-app-ffs5.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -59,14 +59,14 @@ export const fetchCaterers = () => API.get('/caterers');
 export const fetchCaterer = (id) => API.get(`/caterers/${id}`);
 
 // Caterer creating a meal
-export const createMeal = (mealData) => API.post('http://localhost:5000/meals', mealData);
+export const createMeal = (mealData) => API.post('https://mealy-app-ffs5.onrender.com/meals', mealData);
 
 // Caterer updating a meal
-export const updateMeal = (id, updatedMealData) => API.put(`http://localhost:5000/meals/${id}`, updatedMealData);
+export const updateMeal = (id, updatedMealData) => API.put(`https://mealy-app-ffs5.onrender.com/meals/${id}`, updatedMealData);
 
 
 // Caterer deleting a meal
-export const deleteMeal = (id) => API.delete(`http://localhost:5000/meals/${id}`);
+export const deleteMeal = (id) => API.delete(`https://mealy-app-ffs5.onrender.com/meals/${id}`);
 
 // Caterer setting up the menu for the day
 export const createMenu = (menuData) => API.post('/menu', menuData);

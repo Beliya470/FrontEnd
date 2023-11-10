@@ -11,7 +11,7 @@ const AdminLoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:5000/login', {
+            const response = await fetch('https://mealy-app-ffs5.onrender.com/login', {
                 method: 'POST',
                 body: JSON.stringify({ username, email, password }),
                 headers: {
@@ -27,8 +27,8 @@ const AdminLoginPage = () => {
             const data = await response.json();
             console.log(data)
 
-            if (data.access_token) {
-                localStorage.setItem('access-token', data.access_token);  // Change "access-token" to "access_token"
+            if (data["access-token"]) {
+                localStorage.setItem('access-token', data["access-token"]);  // Change "access-token" to "access_token"
             }
             
 

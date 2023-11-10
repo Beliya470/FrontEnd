@@ -87,7 +87,7 @@ const Dashboard = () => {
     </li>
     {/* Add more items as needed */}
   </ul>
-  <a href="/Cateres">See More</a>
+
 </section>
 
 <section className="top-categories">
@@ -113,7 +113,7 @@ const Dashboard = () => {
     </li>
     {/* Add more items as needed */}
   </ul>
-  <a href="/categories">See More</a>
+  
 </section>
 
           </>

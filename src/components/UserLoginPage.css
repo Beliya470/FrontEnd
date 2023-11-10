@@ -1,15 +1,16 @@
 /* UserLoginPage.css */
 
 .user-login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  font-family: Arial, sans-serif
     }
 
 .form-group {
-    width: 35%;
-    padding: 10px;
+    width: 50%;
+    padding: 20px;
   }
   
   .user-login-title {
@@ -23,6 +24,8 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 50px;
+    margin: 10px;
+    
   }
   
   .user-login-button {
