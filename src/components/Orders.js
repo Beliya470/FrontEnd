@@ -1,18 +1,17 @@
-// Orders.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Orders.css'; // Import the CSS file
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Added loading state
+    const [error, setError] = useState(null); // Added error state
 
     useEffect(() => {
         const fetchOrders = async () => {
+            setIsLoading(true); // Start loading
+            setError(null); // Reset error
             try {
-                setIsLoading(true);
-
                 const accessToken = localStorage.getItem('access-token');
                 
                 const response = await axios.get('https://mealy-app-ffs5.onrender.com/orders', {
@@ -22,15 +21,24 @@ const Orders = () => {
                 });
 
                 setOrders(response.data.orders);
-                setIsLoading(false);
             } catch (error) {
-                setError(error.message);
-                setIsLoading(false);
+                setError(error); // Set error
+                console.error(error);
+            } finally {
+                setIsLoading(false); // Stop loading
             }
         };
 
         fetchOrders();
     }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>; // Show loading state
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>; // Show error message
+    }
 
     return (
         <div className="container mt-5">
